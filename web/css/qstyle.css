@@ -1,0 +1,93 @@
+/* 
+    Document   : qstyle
+    Created on : Mar 30, 2013, 7:26:33 AM
+    Author     : Firat
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 1200px;
+    text-align: center;
+    margin: 20px auto;
+}
+
+#main { background: #eee }
+
+#header {
+    height: 100px;
+    background: #1086C1;
+}
+
+#footer {
+    height: 100px;
+    clear: left;
+    background: #C0C0C0;
+}
+
+#indexLeftColumn {
+    height: 400px;
+    width: 200px;
+    float: left;
+    background: #ccc;
+}
+
+#indexRightColumn {
+    height: 400px;
+    width: 1000px;
+    float: left;
+    background: #eee;
+}
+.button
+{
+    border: 1px outset #b37d00 ;
+    color: white;
+    background:#FC221D;
+    font-family: sans-serif
+}
+
+.reallySmallText { font-size: xx-small }
+
+#indexLeftColumn ul 
+{ 
+    float: right; 
+    list-style: none;
+} 
+#indexLeftColumn li  
+{ 
+    margin-right: 0.1875em; 
+    display: inline; 
+    float: left; 
+    text-align: center; 
+    font-size: 18px; 
+} 
+#indexLeftColumn li a 
+{ 
+    background-color: #F6F4F0;
+    color: #000000;
+    text-decoration: none;
+    display: block;
+    padding: 2px;
+    border: 1px solid #e5e5e5;
+    margin-top: 1px;
+    border-radius: 2px;
+    width: 190px;
+} 
+#indexLeftColumn li a:hover 
+{ 
+    background-color: #fff;     
+    color: #000; 
+}
+
+#directions_panel {
+    height: 300px;
+    overflow: auto;
+    padding: 2px 4px 2px 0;
+}
+#directions_panel table {
+    /*font-size: 1em;*/
+    font-size: 0.85em;
+    width: 100%;
+    line-height: normal;
+}

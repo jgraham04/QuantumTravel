@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<ui:composition template="/WEB-INF/qTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+    <ui:define name="title">Directions</ui:define>
+    <ui:define name="content">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+        <div id="main">
+
+            <div id="indexLeftColumn" >
+
+                <ul> 
+                    <li><a href="qCurrentTrip.xhtml">Current Trip</a></li>
+                    <li><a href="qMyTrips.xhtml">My Trips</a></li> 
+                    <li><a href="planTripInfo.xhtml">Plan A Trip</a></li>
+                    <li><a href="qUploadPhotoList.xhtml">My Media</a></li>
+                </ul> 
+            </div>
+            <div id="indexRightColumn">
+                <form id="editTripForm" name="editTripForm" method="post" action="Back">
+                    <input type="hidden" name="tripId" value="#{EditTripBean.tripId}" /> 
+                    <input type="hidden" value="#{EditTripBean.name}" name="tripName" size="40" />
+                    <input type="hidden" name="startLocation" id="startLocation" value="#{EditTripBean.startLocation}" />
+                    <input type="hidden"  name="endLocation" value="#{EditTripBean.endLocation}" id="endLocation"/>
+                    <input type="hidden" value="#{EditTripBean.startDate.year+1900}-#{EditTripBean.startDate.month+1}-#{EditTripBean.startDate.date}" name="startDate" id="startDate" />
+                    <input type="hidden" name="endDate" value="#{EditTripBean.endDate.year+1900}-#{EditTripBean.endDate.month+1}-#{EditTripBean.endDate.date}" />
+
+                    <h:dataTable value="#{EditTripBean.waypoints}" var="w"
+                                 styleClass="order-table"
+                                 headerClass="order-table-header"
+                                 rowClasses="order-table-odd-row,order-table-even-row"
+                                 >
+                        <h:column>
+                            <input type="hidden" value="#{w.name}" name="waypoint" id="waypoints" />
+                        </h:column>
+                    </h:dataTable>
+
+                    <div class="screen1">
+
+                        <table style="padding-top: 10px;text-align: left;">
+                            <tr>
+                                <td>
+                                    <table style="text-align: left;">
+                                        <tr>
+                                            <td id="hiddenD">
+
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;" colspan="2">
+                                                <div id="directions_panel" style="margin:20px; text-align: left"></div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right;" colspan="2">
+                                                <input class="button" onclick="javascript:history.go(-1)" type="button" id="back" value="Back" style="float: right;"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <div id="map_canvas" style="float:left;width:600px;height:350px;"></div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

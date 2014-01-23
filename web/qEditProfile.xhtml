@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<ui:composition template="/WEB-INF/qTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                >
+    <ui:define name="title">Registration Page</ui:define>
+
+    <ui:define name="content">
+        <div id="main">
+            <script>
+                function isPassChange()
+                {
+                    if (document.getElementById('confirmpasswordcheckbox').checked)
+                    {
+                        if (document.getElementById('currentPassword').value =="#{sessionScope['userpassword']}")
+                        {
+
+                            document.getElementById('newPassword').style.display = 'block';
+                            document.getElementById('newPasswordLabel').style.display = 'block';
+                            document.getElementById('confirmPasswordLabel').style.display = 'block';
+                            document.getElementById('confirmPassword').style.display = 'block';
+                        }
+                        else
+                            {
+                                 alert("Please Enter your current Password");
+                                document.getElementById('confirmpasswordcheckbox').checked=false;
+                            }
+                    }
+                    else
+                    {
+                        document.getElementById('newPassword').style.display = 'none';
+                        document.getElementById('newPasswordLabel').style.display = 'none';
+                        document.getElementById('confirmPasswordLabel').style.display = 'none';
+                        document.getElementById('confirmPassword').style.display = 'none';
+                    }
+                }
+            </script>
+            <div id="indexLeftColumn"></div>
+            <div id="indexRightColumn" >
+                <form id="editProfileForm" name="editProfileForm" action="ProfileServlet" method="post" >
+
+                    <table style="padding-top: 70px; padding-left: 300px;text-align: right;">
+                        <tr>
+                            <td>  <label>Your Username: </label>   </td>
+                            <td style="text-align: left;"><label> #{sessionScope['username']}</label></td>
+                        </tr>
+                        <tr>
+                            <td> <label>First Name : </label> </td>
+                            <td><input type="text" placeholder="#{sessionScope['userfirstname']}" name="firstName" /> </td>
+                        </tr>
+                        <tr>
+                            <td> <label>Last Name : </label></td>
+                            <td> <input type="text" placeholder="#{sessionScope['userlastname']}" name="lastName" /> </td>
+                        </tr>
+                        <tr>
+                            <td><label>E-Mail : </label>  </td>
+                            <td><input type="email"  placeholder="#{sessionScope['useremail']}" name="email" /> </td>
+                        </tr>
+                        <tr>
+                            <td><label>Current Password : </label></td>
+                            <td><input type="password"  required="required" id="currentPassword" name="currentPassword" maxlength="16"/> </td>
+                            <td><input type="checkbox" onclick="isPassChange()" id="confirmpasswordcheckbox" value="OFF" /></td>
+                            <td><label>Change Password ? </label></td>
+                        </tr>
+                        <tr>
+                            <td><label id="newPasswordLabel" style="display: none">New Password : </label> </td>
+                            <td><input  type="password"  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}"
+                                        style=" display: none" id="newPassword" name="newPassword" required = "" maxlength="16"
+                                        onchange="  this.setCustomValidity(this.validity.patternMismatch ?
+                            'Password must contain at least 6 characters, including UPPER/lowercase and numbers' : '');
+                    if (this.checkValidity())
+                        form.confirmPassword.pattern = this.value;"/>  </td>
+                        </tr>
+                        <tr>
+                            <td><label id="confirmPasswordLabel" style="display: none">Confirm Password: </label> </td>
+                            <td><input  type="password"  style=" display: none" id="confirmPassword" 
+                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}" 
+                                        name="confirmPassword" maxlength="16" 
+                                        onchange="this.setCustomValidity(this.validity.patternMismatch ?
+                            'Please enter the same Password as above' : '');"/>  </td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: right" colspan="2">
+                                <input class="button" type="submit" value="Save Changes" style="float: right;"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

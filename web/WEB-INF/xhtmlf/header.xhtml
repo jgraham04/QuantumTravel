@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <script>
+        function isSignOn()
+        {
+            if (#{sessionScope['user'] !=null})
+            {
+                document.getElementById('signup').style.display = 'none';
+                document.getElementById('logout').style.display = 'block';
+                document.getElementById('myaccount').style.display = 'block';
+            }
+            else
+            {
+                document.getElementById('signup').style.display = 'block';
+                document.getElementById('logout').style.display = 'none';
+                document.getElementById('myaccount').style.display = 'none';
+            }
+        }
+    </script>
+    <h:head>
+        <link rel="stylesheet" type="text/css" href="css/qstyle.css"></link>
+        <title>Quantum Travel</title>
+
+    </h:head>
+    <body>
+         <div id="fb-root"></div>
+<script>
+window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '235216429941397', // App ID
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+    // Additional initialization code here
+  };
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+</script>
+        <div id="header">               
+            <table>
+                <tr>
+                    <td>
+                        <a href="index.xhtml">
+                            <img src="img/logo.png" style="padding-top: 20px" height="61px" width="365px" id="logo" alt="Quantum Travel Logo"/>
+                        </a>
+                    </td>
+                    <td style="padding-left: 150px; padding-top: 20px">
+                        <form name="searchForm" id="searchForm" action="searchPage.xhtml" method="get"> 
+                            <input type="text"  style="width: 200px" placeholder="Looking for ideas?" name="q" id="searchField"></input>
+                            <input class="button" type="submit" id="searchButton" value="Search" ></input>
+                        </form>
+                    </td>
+                    <td> 
+                    </td>
+                    <td  style="padding-left: 200px; padding-top: 20px">
+                        <a id="myaccount" href="qEditProfile.xhtml" class="button" style="display: none; text-decoration: none; padding: 2px;">My Account</a>
+                    </td>
+                    <td style="padding-top: 20px">
+                        <a id="signup" href="qRegister.xhtml" class="button" style="display: block; text-decoration: none; padding: 2px;">Sign Up</a>            
+                        <a id="logout" href="logout" class="button" style="display: none;text-decoration: none; padding: 2px;">Log Out</a>
+                    </td>
+                </tr>
+            </table>
+        </div>      
+    </body>
+</html>

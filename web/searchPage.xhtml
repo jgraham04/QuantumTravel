@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<ui:composition template="/WEB-INF/qTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+    <ui:define name="title">Search Results</ui:define>
+    <ui:define name="content">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+        <div id="main">
+            <div id="indexRightColumn" style="width:1200px">
+                <h3> Results for : #{SearchBean.searchQuery} </h3>
+                <p:dataTable  paginator="true" rows="5"  
+                                  rowsPerPageTemplate="5,10"
+                                  paginatorPosition="bottom"
+                                  var="trip" value="#{SearchBean.trips}">
+                        <p:column headerText="Trip Name">
+                            <a href="trip.xhtml?#{trip.id}">
+                            <h:outputText value="#{trip.name}" />
+                            </a>
+                        </p:column>
+                        <p:column headerText="Start Date">
+                            <h:outputText value="#{trip.startDate.month + 1}/#{trip.startDate.date}/#{trip.startDate.year + 1900}" />
+                        </p:column> 
+                        <p:column headerText="End Date">
+                            <h:outputText value="#{trip.endDate.month + 1}/#{trip.startDate.date}/#{trip.startDate.year + 1900}" />
+                        </p:column>
+                        <p:column headerText="Start Location">
+                            <h:outputText value="#{trip.startLocation}" />
+                        </p:column>
+
+                        <p:column headerText="Destination">
+                            <h:outputText value="#{trip.destination}" />
+                        </p:column>
+                    </p:dataTable>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

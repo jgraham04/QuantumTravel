@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"> 
+
+<ui:composition template="/WEB-INF/qTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+    <ui:define name="title">Welcome</ui:define>
+
+    <ui:define name="content">
+        <div id="main">
+          
+            <div id="indexLeftColumn" style="width: 900px;">
+                <!--                <div id="map_canvas" style="float:left;width:100%;height:100%;"></div>-->
+                <p:galleria value="#{GalleriaBean.images}" var="image" panelWidth="900" panelHeight="350" >  
+                    <p:graphicImage url="img/galleria/#{image}" alt="Image Description for #{image}" title="#{image}"/>  
+                </p:galleria>   
+            </div>
+            <div id="indexRightColumn" style="width: 300px;">
+                <form method="post" name="loginForm" action="LoginServlet">
+                    <table style="padding-left: 40px; padding-top:50px">
+                        <tr>
+                            <td>
+                                <label>User Name: </label>
+                            </td>
+                            <td>
+                                <input id="username" name="username" type="text"></input> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label>Password </label>
+                            </td>
+                            <td>
+                                <input id="password" name="password" type="password"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: right">
+                                <input id="loginButton" class="button" name="loginButton" type="submit"></input>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                   <h:outputText style=" color: red" value="Invalid credentials" rendered="#{param.error==1}"/> 
+                            </td>
+                        </tr>
+                    </table>
+                </form>             
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

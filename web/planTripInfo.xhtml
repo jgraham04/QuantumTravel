@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<ui:composition template="/WEB-INF/qTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                >
+
+    <ui:define name="title">Plan a Trip</ui:define>
+    <ui:define name="content">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+        <div id="main">
+            <script>
+
+                $(document).ready(function() {
+
+
+                    $("#backButton").click(function() {
+                        $(".screen2").hide();
+                        $(".screen1").show();
+
+                        return false;
+                    });
+                    var i = 1;
+                    $("#addWayPoint").click(function() {
+
+
+                        $("#wayPointBox").append('<br /><input type="text" placeholder="Enter Address/Name/Coordinates..." name="waypoint" id="waypoint[' + i + ']" />\
+                                                    <input type="button" class="button" value="X" name="removeButton" id="removeButton[' + i + ']"/>')
+                        i++;
+                        return false;
+                    });
+                });
+
+            </script>
+            <div id="indexLeftColumn" >
+
+                <ul> 
+                    <li><a href="qCurrentTrip.xhtml">Current Trip</a></li>
+                    <li><a href="qMyTrips.xhtml">My Trips</a></li> 
+                    <li><a href="planTripInfo.xhtml">Plan A Trip</a></li>
+                    <li><a href="qUploadPhotoList.xhtml">My Media</a></li>
+                </ul> 
+            </div>
+            <div id="indexRightColumn">
+                <form id="planTripForm" name="planTripForm" method="post" action="TripServlet">
+                    <div class="screen1">
+                        <table style="padding-top: 10px;text-align: left;">
+                            <tr>
+                                <td>
+                                    <table style="padding-top: 10px;text-align: left;">
+                                        <tr>
+                                            <td><label>Trip Name: </label></td>
+                                            <td><input type="text" placeholder="Name of your trip?" name="tripName" size="40" /></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td><label>Start Date: </label> </td>
+                                            <td><input type="date" name="startDate" id="startDate" /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>End Date: </label></td>
+                                            <td><input type="date" name="endDate" /></td>
+                                        </tr>
+                                        <tr>
+                                            <td> <label>Start Location: </label></td>
+                                            <td> <input type="text" placeholder="Where are you?" name="startLocation" id="startLocation" /> </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Waypoints: </label>  </td>
+                                            <td>
+                                                <div id="wayPointBox">
+                                                    <input type="text" placeholder="Enter Address/Name/Coordinates..." name="waypoint" id="waypoint[0]" />
+                                                </div>
+                                                <input  class="button" type="button" id="addWayPoint" value="Add Another" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label>Destination: </label> </td>
+                                            <td><input type="text" placeholder="Where are you going?" name="endLocation" id="endLocation"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td id="hiddenD">
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align: right" colspan="2">
+
+                                                <input class="button" type="submit" id="saveMyTrip" value="Save!" style="float: right;"/>
+                                                <input class="button" onclick="calcRoute();" type="button" id="showMyTrip" value="Show My Trip" style="float: right;"/>
+                                            </td>
+
+                                        </tr>
+                                    </table> 
+                                </td>
+                                <td>
+                                    <div id="map_canvas" style="float:left;width:600px;height:350px;"></div>
+                                </td>
+                            </tr>
+
+                        </table>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

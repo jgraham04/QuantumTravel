@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<ui:composition template="/WEB-INF/qTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                >
+
+    <ui:define name="title">#{TripDisplayBean.trip.name} - Quantum Travel</ui:define>
+    <ui:define name="content">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+        <div id="main">
+            <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+            <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+            <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+            <style>
+                
+                </style>
+            <script>
+                $(function() {
+                    $( "#tabs" ).tabs();
+                });
+                $(document).ready(function() {
+                    //reCalcRoute();
+                    
+                });
+                
+                window.onload = function() {
+                    initialize();
+                    isSignOn();
+                    displayMap();   
+                }
+            </script>
+
+            <div id="indexRightColumn " style="width:1200px">
+                <table style="padding-top: 10px;text-align: right;">
+                    <tr>
+                        <td>
+                            <table style="padding-top: 10px;text-align: left;">
+
+                                <tr>
+                                    <td><label>Trip Name: </label></td>
+                                    <td><span id="name">#{TripDisplayBean.trip.name}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Start Date: </label> </td>
+                                    <td>#{TripDisplayBean.trip.startDate.month+1}/#{TripDisplayBean.trip.startDate.date}/#{TripDisplayBean.trip.startDate.year+1900}</td>
+                                </tr>
+                                <tr>
+                                    <td><label>End Date: </label></td>
+                                    <td>#{TripDisplayBean.trip.endDate.month+1}/#{TripDisplayBean.trip.endDate.date}/#{TripDisplayBean.trip.endDate.year+1900}</td>
+                                </tr>
+                                <tr>
+                                    <td> <label>Start Location: </label></td>
+                                    <td> <span id="startLocation">#{TripDisplayBean.trip.startLocation}</span></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Waypoints: </label>  </td>
+                                    <td>
+                                        <h:dataTable value="#{TripDisplayBean.waypoints}" var="w"
+                                                     styleClass="order-table"
+                                                     headerClass="order-table-header"
+                                                     rowClasses="order-table-odd-row,order-table-even-row"
+                                                     >
+
+                                            <h:column>
+                                                <a name="waypoint">#{w.name}</a>
+
+                                            </h:column>
+                                        </h:dataTable>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><label>Destination: </label> </td>
+                                    <td><span id="endLocation">#{TripDisplayBean.trip.destination}</span></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <a href="https://twitter.com/share" class="twitter-share-button" 
+                                           data-url="http://localhost:8080/QuantumTravel/faces/trip.xhtml?#{TripDisplayBean.trip.id}" 
+                                           data-text="Check out this awesome trip" data-count="none" data-hashtags="quantumtravel">Tweet</a>
+                                        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':
+                                                    'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+
+                                                        '://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+                                        </script>
+                                        <div class="fb-like" data-href="http://localhost:8080/QuantumTravel/faces/trip.xhtml?#{TripDisplayBean.trip.id}" data-send="false" data-layout="button_count" data-width="100" data-show-faces="false" data-action="recommend"></div>
+                                    </td>
+                                </tr>
+                            </table> 
+                        </td>
+                        <td> 
+
+                            <div id="tabs" style="width:900px;height:450px;">
+                                <ul>
+                                    <li><a href="#tabs-1">Map</a></li>
+                                    <li><a href="#tabs-2">Photos</a></li>
+
+                                </ul>
+                                <div id="tabs-1">
+                                    <div id="map_canvas" style="float:right;width:100%;height:350px;"></div>
+                                </div>
+                                <div id="tabs-2">
+
+                                    <h:dataTable id="table1" value="#{TripDisplayBean.images}" var="item"
+                                                 border="1">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Item Description" />
+                                            </f:facet>
+
+                                            <a href="img/galleria/#{item}" target="_blank"><h:graphicImage value="img/galleria/#{item}" width="100"/></a>
+                                        </h:column>
+                                       
+                                    </h:dataTable>
+
+                                </div>
+                                
+                            </div>
+                        </td>
+                    </tr>
+
+                </table>
+
+            </div>
+
+
+        </div>
+    </ui:define>
+</ui:composition>

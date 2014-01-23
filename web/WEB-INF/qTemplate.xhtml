@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets" 
+      >
+    <h:head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no"></meta>
+        <meta charset="utf-8"></meta>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&amp;sensor=true&amp;key=#{AIzaSyBnBaenb2sAgzpLywW5n05eqmcvwJQIrR4}"></script> 
+        
+        <script type="text/javascript" src="js/googleFunction.js"></script>
+        <title>
+            <ui:insert name="title">Some title</ui:insert>
+        </title>        
+    </h:head>
+
+    <ui:include src="xhtmlf/header.xhtml"/>
+
+    <h:body onload="isSignOn(); initialize(); onStart();">
+        <ui:insert name="content" />
+    </h:body>
+
+    <ui:include src="xhtmlf/footer.xhtml"/>
+
+</html>

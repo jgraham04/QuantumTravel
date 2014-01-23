@@ -1,0 +1,171 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">
+<ui:composition template="/WEB-INF/qTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                >
+    <ui:define name="title">Edit Current Trip</ui:define>
+    <ui:define name="content">
+        <div id="main">
+            <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+
+            <script>
+                $(document).ready(function() {
+                    $("#map_canvas").load(function()
+                    {
+                        localize("#{CurrentTripTableBean.currentLocation}");
+                        return false;
+                    });
+                    var geocoder;
+
+                    function placeMarker() {
+                        geocoder = new google.maps.Geocoder();
+
+                        directionsDisplay = new google.maps.DirectionsRenderer();
+                        var chicago = new google.maps.LatLng(51.850033, -87.6500523);
+                        var mapOptions = {
+                            zoom: 15,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP,
+                            center: chicago
+                        }
+                        map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+                        directionsDisplay.setMap(map);
+                        geocoder.geocode({'address': "#{CurrentTripTableBean.currentLocation}"}, function(results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                map.setCenter(results[0].geometry.location);
+                                var marker = new google.maps.Marker({
+                                    map: map,
+                                    position: results[0].geometry.location
+                                });
+                            } else {
+                                alert("Geocode was not successful for the following reason: " + status);
+                            }
+                        });
+                    }
+
+                    $("#backButton").click(function() {
+                        $(".screen2").hide();
+                        $(".screen1").show();
+
+                        return false;
+                    });
+                    var i = 1;
+                    $("#addWayPoint").click(function() {
+
+
+                        $("#wayPointBox").append('<br /><input type="text" placeholder="Enter Address/Name/Coordinates..." name="waypoint" id="waypoints" />\
+                                                    <input type="button" class="button" value="X" name="removeButton" id="removeButton"/>')
+                        i++;
+                        return false;
+                    });
+                    $('.removeButton').click(function() {
+                        $(this).prev().remove();
+                        $(this).remove();
+                    });
+
+                    window.onload = function() {
+                        isSignOn();
+                        placeMarker();
+                        places();
+                    }
+
+                });
+            </script>
+            <div id="indexLeftColumn" >
+
+                <ul> 
+                    <li><a href="qCurrentTrip.xhtml">Current Trip</a></li>
+                    <li><a href="qMyTrips.xhtml">My Trips</a></li> 
+                    <li><a href="planTripInfo.xhtml">Plan A Trip</a></li>
+                    <li><a href="qUploadPhotoList.xhtml">My Media</a></li>
+                </ul> 
+            </div>
+            <div id="indexRightColumn">
+                <form id="editCurrentTripForm" name="editTripForm" method="post" 
+                      action="CurrentTripServlet?tripId=#{CurrentTripTableBean.tripId}">
+                    <input type="hidden" name="tripId" value="#{CurrentTripTableBean.tripId}" />
+                    <input type="hidden" value="#{CurrentTripTableBean.tripName}" name="tripName" size="40" />
+                    <input type="hidden" name="startLocation" id="startLocation" value="#{CurrentTripTableBean.currentLocation}" />
+                    <input type="hidden"  name="endLocation" value="#{CurrentTripTableBean.destination}" id="endLocation"/>
+                    <table style="padding-top: 10px;text-align: left;">
+                        <tr>
+                            <td style="width:400px">
+                                <table>
+                                    <tr>
+                                        <td><label>#{CurrentTripTableBean.tripName} </label></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Points of interests nearby? </label></td>
+                                        <td><input type="text" name="poi" id="poi"  /> </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><label>Where are you now?</label> </td>
+                                        <td><input type="text" name="newLocation" id="newLocation" value="#{CurrentTripTableBean.currentLocation}" /> </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Waypoints: </label>  </td>
+                                        <td>
+                                            <h:dataTable value="#{CurrentTripTableBean.waypoints}" var="w"
+                                                         styleClass="order-table"
+                                                         headerClass="order-table-header"
+                                                         rowClasses="order-table-odd-row,order-table-even-row"
+                                                         >
+                                                <h:column>
+                                                    <input type="text" value="#{w.name}" name="waypoint" id="waypoints" />
+                                                    <input type="button" class="button removeButton" value="X" name="removeButton" id="removeButton" />
+                                                </h:column>
+                                            </h:dataTable>
+                                            <div id="wayPointBox">
+                                                <input type="text" placeholder="Enter Address/Name/Coordinates..." name="waypoint" id="waypoints" />
+                                            </div>
+                                            <input  class="button" type="button" id="addWayPoint" value="Add Another" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Do you wish to make this trip public? </label> </td>
+                                        <c:if test="#{CurrentTripTableBean.isPublic == 1}">
+                                            <td><input name="isPublic" type="checkbox" checked="checked" /></td>
+                                        </c:if>
+                                        <c:if test="#{CurrentTripTableBean.isPublic == 0}">
+                                            <td><input name="isPublic" type="checkbox" /></td>
+                                        </c:if>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="text-align: right">
+                                            <input type="submit" class="button" name="updateCL" id="updateCL" value="Save" style="float: right;" />
+                                            <input class="button" onclick="reCalcRoute();" type="button" id="showMyTrip" value="Update Map" style="float: right;"/>
+                                            <input type="submit" class="button" name="cancel" formaction="CancelTrip" id="cancel" value="Cancel Trip" style="float: right;" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right" colspan="2">
+                                            <a href="qDirections.xhtml?#{CurrentTripTableBean.tripId}" id="directions" name="directions" style="float: right; font-size: 12px;">Get Directions</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td id="hiddenD">
+
+
+                                        </td>
+                                    </tr>
+
+                                </table> 
+                            </td>
+                            <td>
+                                <div id="map_canvas" style="float:right;width:600px;height:350px;"></div>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                </form>
+
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
